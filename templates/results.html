@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="text-center">
+
+<i class="bi bi-bar-chart-fill"></i>
+
+Election Results
+
+</h2>
+
+
+<div class="alert alert-primary text-center">
+
+Total Votes:
+
+<b>
+
+{{ total_votes }}
+
+</b>
+
+</div>
+
+
+{% if winner %}
+
+<div class="alert alert-success text-center">
+
+🏆 Current Winner:
+
+<b>
+
+{{ winner }}
+
+</b>
+
+</div>
+
+{% endif %}
+
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+
+<th>Candidate</th>
+
+<th>Votes</th>
+
+<th>Percentage</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for candidate in candidates %}
+
+<tr>
+
+<td>
+
+{{ candidate.name }}
+
+</td>
+
+<td>
+
+{{ candidate.votes }}
+
+</td>
+
+<td>
+
+{{ result_data[
+candidate.name
+].percentage }}%
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% endblock %}

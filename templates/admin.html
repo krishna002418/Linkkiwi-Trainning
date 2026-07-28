@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>
+
+<i class="bi bi-person-gear"></i>
+
+Admin Panel
+
+</h2>
+
+
+<div class="card mb-4">
+
+<div class="card-body">
+
+<form method="POST">
+
+<div class="row">
+
+<div class="col-md-4">
+
+<input
+    class="form-control"
+    name="name"
+    placeholder="Candidate Name"
+    required
+>
+
+</div>
+
+<div class="col-md-4">
+
+<input
+    class="form-control"
+    name="party"
+    placeholder="Party Name"
+    required
+>
+
+</div>
+
+<div class="col-md-2">
+
+<input
+    class="form-control"
+    name="symbol"
+    placeholder="Symbol"
+>
+
+</div>
+
+<div class="col-md-2">
+
+<button
+    class="btn btn-success w-100"
+>
+
+Add
+
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+
+<table class="table table-striped">
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Party</th>
+
+<th>Votes</th>
+
+<th>Action</th>
+
+</tr>
+
+
+{% for candidate in candidates %}
+
+<tr>
+
+<td>
+
+{{ candidate.id }}
+
+</td>
+
+<td>
+
+{{ candidate.name }}
+
+</td>
+
+<td>
+
+{{ candidate.party }}
+
+</td>
+
+<td>
+
+{{ candidate.votes }}
+
+</td>
+
+<td>
+
+<a
+    class="btn btn-danger btn-sm"
+    href="{{ url_for(
+    'delete_candidate',
+    candidate_id=candidate.id
+    ) }}"
+>
+
+<i class="bi bi-trash"></i>
+
+Delete
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}
