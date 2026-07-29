@@ -272,22 +272,13 @@ def admin():
     """).fetchall()
 
     connection.close()
-
-    return render_template(
-        "admin.html",
-        candidates=candidates
-    )
-
+    return render_template("admin.html",candidates=candidates)
 
 # ---------------- DELETE CANDIDATE ----------------
 
-@app.route(
-    "/delete/<int:candidate_id>"
-)
+@app.route("/delete/<int:candidate_id>", methods=["POST"])
 def delete_candidate(candidate_id):
-
     connection = get_db()
-
     # DELETE method
     connection.execute("""
         DELETE FROM candidates
@@ -299,15 +290,8 @@ def delete_candidate(candidate_id):
     connection.commit()
     connection.close()
 
-    flash(
-        "Candidate deleted.",
-        "danger"
-    )
-
-    return redirect(
-        url_for("admin")
-    )
-
+    flash("Candidate deleted.","danger")
+    return redirect(url_for("admin") )
 
 # ---------------- LOGOUT ----------------
 
