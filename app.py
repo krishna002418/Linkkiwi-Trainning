@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 from functools import wraps
-
+from werkzeug.exceptions import HTTPException
 app = Flask(__name__)
 app.secret_key = "online_voting_secret_key"
+from werkzeug.utils import secure_filename
 
 DATABASE = "Myproject.db"
 
@@ -26,7 +27,6 @@ def create_tables():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
             username TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
             has_voted INTEGER DEFAULT 0
@@ -100,41 +100,30 @@ def home():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-
     if request.method == "POST":
-
-        name = request.form["name"]
+        
         username = request.form["username"]
         password = request.form["password"]
-
         connection = get_db()
-
         try:
             # INSERT method
             connection.execute("""
-                INSERT INTO users(name, username, password)
-                VALUES (?, ?, ?)
-            """, (name, username, password))
-
+                INSERT INTO users( username, password)
+                VALUES (?, ?)
+            """, ( username, password))
             connection.commit()
-
             flash(
                 "Registration successful. Please login.",
                 "success"
             )
-
             return redirect(url_for("login"))
-
         except sqlite3.IntegrityError:
-
             flash(
                 "Username already exists.",
                 "danger"
             )
-
         finally:
             connection.close()
-
     return render_template("register.html")
 
 
@@ -445,6 +434,8 @@ def logout():
         url_for("home")
     )
 
+def page_not_found(e):
+    return render_template("404.html"), 404
 
 # ---------------- RUN APPLICATION ----------------
 
