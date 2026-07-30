@@ -84,15 +84,20 @@ def home():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+        name = request.form["name"]
         username = request.form["username"]
         password = request.form["password"]
         connection = get_db()
         try:
             # INSERT method
             connection.execute("""
-                INSERT INTO users( username, password)
-                VALUES (?, ?)
-            """, ( username, password))
+                INSERT INTO users(
+                    name,
+                    username,
+                    password
+                )
+                VALUES (?, ?, ?)
+            """, (name, username, password))
             connection.commit()
             flash("Registration successful. Please login.","success")
             return redirect(url_for("login"))
@@ -195,6 +200,18 @@ def vote(candidate_id):
     connection.close()
     flash("Your vote was cast successfully!","success")
     return redirect(url_for("results"))
+
+#----------------- CANDIDATE DETAIL PAGE ----------------
+@app.route("/candidates/<int:id>")
+def candidate_detail(id):
+    conn = get_db()
+    candidate = conn.execute('SELECT * FROM candidates WHERE id = ?', (id,)).fetchone()
+    conn.close()
+    if candidate is None:
+        flash("Candidate not found", "danger")
+        return redirect(url_for("candidates"))
+    
+    return render_template("detail.html", candidate=candidate)
 
 # ---------------- RESULTS ----------------
 

@@ -1,0 +1,45 @@
+body {
+    background: #eaedf4;
+}
+.hero {
+    padding: 70px 20px;
+    color: white;
+    border-radius: 20px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #4f46e5,
+        #9333ea
+    );
+}
+.candidate-card {
+    border: none;
+    border-radius: 18px;
+
+    transition: 0.3s;
+}
+
+.candidate-card:hover {
+
+    transform:
+    translateY(-8px);
+
+    box-shadow:
+    0 12px 25px
+    rgba(
+        0,
+        0,
+        0,
+        0.15
+    );
+}
+
+.btn {
+
+    border-radius: 10px;
+}
+.card {
+
+    border-radius: 18px;
+}

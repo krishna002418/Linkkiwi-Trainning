@@ -1,22 +1,41 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center px-2">
-        <div class="col-12 col-md-5">
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
-                    <h4 class="fw-bold mb-3">Register</h4>
-                    <form method="POST" action="{{ url_for('register') }}">
-                        <input type="text" name="username" class="form-control mb-2" placeholder="Username">
-                        <input type="password" name="password" class="form-control mb-2" placeholder="Password">
-                        <button type="submit" class="btn btn-dark">Register</button>
-                    </form>
-                    <p class="text-center mt-3 mb-0">
-                        Already have an account? <a href="{{ url_for('login') }}">Login here</a>
-                    </p>
-                </div>
-            </div>
-        </div>        
-    </div>
+<div class="row justify-content-center">
+<div class="col-md-6">
+<div class="card shadow">
+<div class="card-body p-4">
+<h2 class="text-center">
+<i class="bi bi-person-plus"></i>
+User Registration
+</h2>
+<form method="POST">
+<input
+    class="form-control mb-3"
+    name="name"
+    placeholder="Full Name"
+    required
+>
+<input
+    class="form-control mb-3"
+    name="username"
+    placeholder="Username"
+    required
+>
+<input
+    class="form-control mb-3"
+    type="password"
+    name="password"
+    placeholder="Password"
+    required
+>
+<button
+    class="btn btn-success w-100"
+>
+Register
+</button>
+</form>
+</div>
+</div>
+</div>
 </div>
 {% endblock %}

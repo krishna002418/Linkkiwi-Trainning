@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Student Detail — College Portal{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+
+        <!-- Detail card -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header py-3"
+                 style="background-color: #5f3f1e;">
+                <h4 class="mb-0 text-white">
+                    👤 candidate Detail
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <!-- Avatar -->
+                 <div class="text-center mb-4">
+                    <img src="{{ url_for('static', filename='uploads/' ~ candidate.photo) }}"
+                                 class="rounded-circle me-2"
+                                 style="width: 80px; height: 80px; object-fit:cover;"
+                                 alt="{{ candidate.name }}">
+                    <h3 class="fw-bold">{{ candidate['name'] }} </h3>
+                </div>
+
+                <!-- Details -->
+                 <table class="table table-borderless">
+                    <tr>
+                        <th class="text-muted fw-bold">Roll Number:</th>
+                        <td>{{ candidate['roll'] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted fw-bold">Marks:</td>
+                        <td>{{ candidate['marks'] }}
+
+                        <!--Progress bar-->
+                        <div class="progress mt-2" style="height:8px;">
+                            <div class="progress-bar
+                                {% if candidate['marks'] >= 90 %}bg-success
+                                {% elif candidate['marks'] >= 75 %}bg-primary
+                                {% elif candidate['marks'] >= 60 %}bg-warning
+                                {% else %}bg-danger{% endif %}"
+                                style="width: 50%;">
+                            </div>
+                        </div>
+                        </td>
+                    </tr>   
+                    </table>
+
+                    <!-- AI Tips section -->
+                     <div class="mb-3">
+                        <h5 class="fw-bold">AI Study Tips:</h5>
+                        {% if tip %}
+                        <div class ="alert alert-info">{{ tip }}</div>
+                        {% else %}
+                        <a href="{{url_for('get_ai_tip', id=candidate['id'])}}" class="btn btn-primary">Get AI Study Tips</a>
+                        {% endif %}
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
