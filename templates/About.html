@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}About — Online Voting System{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+
+        <!-- Main card -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header py-3"
+                 style="background-color: #1e3a5f;">
+                <h4 class="mb-0 text-white">
+                    ℹ️ About Online Voting System
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <p class="lead text-muted">
+                    Online Voting System is a web application built
+                    with Python and Flask. It allows users to participate in voting processes,
+                    manage candidate information, and view real-time results.
+                </p>
+                <hr>
+
+                <!-- Tech stack -->
+                <h5 class="fw-bold mb-3">🛠️ Technologies Used</h5>
+                <div class="row">
+                    {% set tech = [
+                        ('🐍', 'Python 3.12', 'Programming Language', 'primary'),
+                        ('🌶️', 'Flask',       'Web Framework',        'danger'),
+                        ('🏗️', 'Jinja2',      'Template Engine',      'success'),
+                        ('🎨', 'Bootstrap 5', 'CSS Framework',        'info'),
+                    ] %}
+                    {% for icon, name, role, color in tech %}
+                    <div class="col-6 mb-3">
+                        <div class="d-flex align-items-center
+                                    p-2 rounded bg-light">
+                            <span class="fs-4 me-2">{{ icon }}</span>
+                            <div>
+                                <div class="fw-bold small">{{ name }}</div>
+                                <div class="text-muted" style="font-size:11px;">
+                                    {{ role }}
+                                </div>
+                            </div>
+                            <span class="badge bg-{{ color }} ms-auto">
+                                ✓
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+                <!-- Features -->
+                <h5 class="fw-bold mb-3">✨ Features</h5>
+                <div class="row">
+                    {% for feature in [
+                        'Student list with marks',
+                        'Grade classification',
+                        'Performance progress bars',
+                        'Responsive design',
+                        'Professional dashboard',
+                        'Easy navigation'
+                    ] %}
+                    <div class="col-6 mb-2">
+                        <span class="text-success me-1">✅</span>
+                        <small>{{ feature }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <hr>
+                <a href="{{ url_for('home') }}"
+                   class="btn btn-lg px-4"
+                   style="background-color:#1e3a5f; color:white;">
+                    ← Back to Home
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -79,6 +79,10 @@ def home():
     connection.close()
     return render_template("index.html",candidates=candidates)
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 # ---------------- USER REGISTER ----------------
 
 @app.route("/register", methods=["GET", "POST"])
