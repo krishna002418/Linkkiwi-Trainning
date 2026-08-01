@@ -1,10 +1,25 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+import os
+from flask import Flask, abort, render_template, request, redirect, url_for, session, flash
 import sqlite3
 from functools import wraps
 from werkzeug.exceptions import HTTPException
+
 app = Flask(__name__)
 app.secret_key = "online_voting_secret_key"
+
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
 from werkzeug.utils import secure_filename
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'uploads')
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # Create the upload folder if it doesn't exist
+
+def allowed_file(filename):
+    #only allow certain file extensions
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 DATABASE = "Myproject.db"
 
@@ -298,21 +313,66 @@ def admin():
 # ---------------- DELETE CANDIDATE ----------------
 
 @app.route("/delete/<int:candidate_id>", methods=["POST"])
-def delete_candidate(candidate_id):
-    connection = get_db()
-    # DELETE method
-    connection.execute("""
-        DELETE FROM candidates
-        WHERE id = ?
-    """, (
-        candidate_id,
-    ))
+def delete_candidate(id):
+    if session.get('role') != 'admin':
+        flash("Admins only!  You do not have permission", "danger")
+        return redirect(url_for('home'))
+    
+    conn = get_db()
+    
+    # First check if it exists
+    candidate = conn.execute('SELECT * FROM candidates WHERE id = ?', (id,)).fetchone()
+    if candidate is None:
+        flash("Candidate not found", "danger")
+        conn.close()
+        return redirect(url_for('admin'))
+    conn.execute('DELETE FROM candidates WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    flash("Candidate deleted successfully", "success")
+    return redirect(url_for('admin'))
 
-    connection.commit()
-    connection.close()
+#---------------- EDIT CANDIDATE ----------------
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit_candidate(id):
+    if session.get('role') != 'admin':
+        flash("Admins only!  You do not have permission", "danger")
+        return redirect(url_for('home'))
+    
+    conn = get_db()
+    
+    if request.method == 'POST':
+        name = request.form['candidate_name']
+        party = request.form['party']
+        symbol = request.form['symbol']
 
-    flash("Candidate deleted.","danger")
-    return redirect(url_for("admin") )
+        if not name:
+            flash('Name cannot be empty', 'danger')
+            return redirect(url_for('edit_candidate', id=id))
+        
+        #Add: handle photo upload
+        file = request.files.get('photo')
+        filename = 'default.png'  # Default photo
+        if file and file.filename and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+        conn.execute('''UPDATE candidates SET name=?, party=?, symbol=? 
+                     WHERE id=?''', (name, party, symbol, id))
+        conn.commit()
+        conn.close()
+        flash(f'{name} updated successfully!', 'success')
+        return redirect(url_for('admin'))
+    
+# GET - fetch exisiting record
+    candidate = conn.execute('SELECT * FROM candidates WHERE id = ?', (id,)).fetchone()
+    conn.close()
+    
+    if candidate is None:
+        abort(404) # trigger 404.html
+        
+    return render_template('edit_candidate.html', candidate=candidate)
+
 
 # ---------------- LOGOUT ----------------
 

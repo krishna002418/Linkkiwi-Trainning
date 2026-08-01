@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Edit Candidate — {{candidate['name']}}{% endblock %}
+
+{% block content %}
+
+<div class="row" justify-content center">
+<div class="col-md-6">
+
+<div class="card shadow-sm">
+    <div class="card-header py-3" style="background-color: #5f1e3a;">
+        <h5 class="mb-0 text-white">
+            ✏️ Edit Candidate
+        </h5>
+    </div>
+
+    <div class="card-body p-4">
+        <!--Current values info -->
+        <div class="alert alert-info" py-2 mb-4">
+            <small>
+                <strong>Editing: </strong>
+                {{ candidate['name'] }}
+                Party: {{candidate['party']}}-
+                Symbol: {{candidate['symbol']}}
+            </small>
+        </div>
+
+        <form action="{{url_for('edit_candidate',id=candidate['id'])}}"
+              method="POST" enctype="multipart/form-data">
+
+              <div class="mb-3">
+                <label class="form-label fw-bold">Candidate Name</label>
+              
+              <input required
+                     name="candidate_name"
+                     class="form-control"
+                     placeholder="Enter Candidate Name"
+                     type="text"
+                     value="{{ candidate['name'] }}">
+              </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Party</label>
+                <input required
+                       name="party"
+                       class="form-control"
+                       placeholder="Enter Party Name"
+                       type="text"
+                       value="{{ candidate['party'] }}">
+                </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Symbol</label>
+                <input required
+                       name="symbol"
+                       class="form-control"
+                       placeholder="Enter Symbol"
+                       type="text"
+                       value="{{ candidate['symbol'] }}">
+                </div>
+                       
+            <div class="mb-3">
+                <label class="form-label fw-bold">Photo</label>
+                <input
+                       name="photo"
+                       class="form-control"
+                       type="file"
+                       accept="image/*">
+                </div>
+
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-warning fw-bold">
+                    Save Changes
+                </button>
+                <a href="{{ url_for('admin') }}"
+                   class="btn btn-outline-secondary mt-2">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</div>
+</div>
+
+{% endblock %}
