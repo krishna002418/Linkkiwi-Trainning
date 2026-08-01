@@ -1,31 +1,18 @@
 {% extends "base.html" %}
-
 {% block content %}
-
 <h2 class="text-center mb-4">
-
 <i class="bi bi-people-fill"></i>
-
 Candidates
-
 </h2>
-
-
 <!-- SEARCH BAR -->
-
 <form
     method="GET"
     class="mb-4"
 >
-
 <div class="input-group">
-
 <span class="input-group-text">
-
 <i class="bi bi-search"></i>
-
 </span>
-
 <input
     type="text"
     name="search"
@@ -33,62 +20,36 @@ Candidates
     class="form-control"
     placeholder="Search candidate or party"
 >
-
-<button
+button
     class="btn btn-primary"
 >
-
 Search
-
 </button>
-
 </div>
-
 </form>
-
-
 <div class="row">
-
 {% for candidate in candidates %}
-
 <div class="col-md-4 mb-4">
-
 <div class="card candidate-card">
-
 <div class="card-body text-center">
-
 <h1>
-
 {{ candidate.symbol }}
-
 </h1>
-
 <h4>
-
 {{ candidate.name }}
-
 </h4>
-
 <p>
-
 {{ candidate.party }}
-
 </p>
 
-
 {% if has_voted %}
-
 <button
     class="btn btn-secondary"
     disabled
 >
-
 Already Voted
-
 </button>
-
 {% else %}
-
 <a
     href="{{ url_for(
     'vote',
@@ -96,31 +57,17 @@ Already Voted
     ) }}"
     class="btn btn-success"
 >
-
 <i class="bi bi-check-circle"></i>
-
 Vote
-
 </a>
-
 {% endif %}
-
 </div>
-
 </div>
-
 </div>
-
 {% else %}
-
 <p class="text-center">
-
 No candidate found.
-
 </p>
-
 {% endfor %}
-
 </div>
-
 {% endblock %}
