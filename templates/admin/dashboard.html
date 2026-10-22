@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between">
+
+<h2>
+    <i class="bi bi-speedometer2"></i>
+    Admin Dashboard
+</h2>
+
+<a
+href="{{ url_for('admin_logout') }}"
+class="btn btn-outline-danger">
+
+Logout
+
+</a>
+
+</div>
+
+
+<div class="row mt-4">
+
+<div class="col-md-4">
+
+<div class="card dashboard-card bg-primary text-white">
+
+<h5>
+    <i class="bi bi-people"></i>
+    Users
+</h5>
+
+<h1>
+    {{ users }}
+</h1>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="card dashboard-card bg-success text-white">
+
+<h5>
+    <i class="bi bi-person-badge"></i>
+    Candidates
+</h5>
+
+<h1>
+    {{ candidates }}
+</h1>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="card dashboard-card bg-warning">
+
+<h5>
+    <i class="bi bi-check2-square"></i>
+    Votes
+</h5>
+
+<h1>
+    {{ votes }}
+</h1>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="mt-4">
+
+<a
+href="{{ url_for('admin_candidates') }}"
+class="btn btn-dark">
+
+<i class="bi bi-person-gear"></i>
+
+Manage Candidates
+
+</a>
+
+</div>
+
+{% endblock %}

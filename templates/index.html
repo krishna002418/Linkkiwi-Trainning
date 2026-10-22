@@ -1,46 +1,46 @@
 {% extends "base.html" %}
 
+{% block title %}
+Home - Online Voting
+{% endblock %}
+
 {% block content %}
 
 <div class="hero text-center">
 
-    <i class="bi bi-box2-heart display-1"></i>
-
-    <h1 class="fw-bold">
-
-       Welcome to Online Voting System
-
+    <h1 class="display-4 fw-bold">
+        Online Voting System
     </h1>
 
     <p class="lead">
-
-        Secure • Simple • Digital
-
+        Secure and simple student voting project
     </p>
 
-    {% if session.get("user_id") %}
+    {% if not session.get("user_id") %}
 
-    <a
-        href="{{ url_for('candidates') }}"
-        class="btn btn-warning btn-lg"
-    >
+    <a href="{{ url_for('register') }}"
+       class="btn btn-light btn-lg me-2">
 
-        <i class="bi bi-check-circle"></i>
+        <i class="bi bi-person-plus"></i>
+        Register
 
-        Vote Now
+    </a>
+
+    <a href="{{ url_for('login') }}"
+       class="btn btn-warning btn-lg">
+
+        <i class="bi bi-box-arrow-in-right"></i>
+        Login
 
     </a>
 
     {% else %}
 
-    <a
-        href="{{ url_for('register') }}"
-        class="btn btn-light btn-lg"
-    >
+    <a href="{{ url_for('candidates') }}"
+       class="btn btn-warning btn-lg">
 
-        <i class="bi bi-person-plus"></i>
-
-        Register Now
+        <i class="bi bi-check-circle"></i>
+        Vote Now
 
     </a>
 
@@ -49,33 +49,65 @@
 </div>
 
 
-<div class="row mt-5">
+<h2 class="text-center mt-5 mb-4">
+    Featured Candidates
+</h2>
+
+
+<div class="row">
 
 {% for candidate in candidates %}
 
-<div class="col-md-4 mb-3">
+<div class="col-md-4 mb-4">
 
-    <div class="card candidate-card">
+    <div class="card">
+
+        {% if candidate["photo"] %}
+
+            {% if candidate["photo"].startswith("http") %}
+
+            <img
+                src="{{ candidate['photo'] }}"
+                class="card-img-top candidate-img">
+
+            {% else %}
+
+            <img
+                src="{{ url_for('static',
+                    filename='uploads/' + candidate['photo']) }}"
+                class="card-img-top candidate-img">
+
+            {% endif %}
+
+        {% else %}
+
+        <div class="candidate-img
+                    bg-secondary
+                    text-white
+                    d-flex
+                    align-items-center
+                    justify-content-center">
+
+            <i class="bi bi-person-circle display-1"></i>
+
+        </div>
+
+        {% endif %}
+
 
         <div class="card-body text-center">
 
-            <h1>
-
-                {{ candidate.symbol }}
-
-            </h1>
-
-            <h4>
-
-                {{ candidate.name }}
-
-            </h4>
+            <h5>
+                {{ candidate["name"] }}
+            </h5>
 
             <p>
-
-                {{ candidate.party }}
-
+                {{ candidate["party"] }}
             </p>
+
+            <span class="badge bg-primary">
+                {{ candidate["symbol"] }}
+            </span>
 
         </div>
 

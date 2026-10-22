@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+<div class="col-md-8">
+
+<div class="card p-4">
+
+<h2>
+
+{% if candidate %}
+
+<i class="bi bi-pencil-square"></i>
+Edit Candidate
+
+{% else %}
+
+<i class="bi bi-person-plus"></i>
+Add Candidate
+
+{% endif %}
+
+</h2>
+
+
+<form
+method="POST"
+enctype="multipart/form-data">
+
+
+<div class="mb-3">
+
+<label class="form-label">
+Candidate Name
+</label>
+
+<input
+type="text"
+name="name"
+class="form-control"
+value="{{ candidate['name'] if candidate else '' }}"
+required>
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+Party
+</label>
+
+<input
+type="text"
+name="party"
+class="form-control"
+value="{{ candidate['party'] if candidate else '' }}"
+required>
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+Election Symbol
+</label>
+
+<input
+type="text"
+name="symbol"
+class="form-control"
+value="{{ candidate['symbol'] if candidate else '' }}">
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+Description
+</label>
+
+<textarea
+name="description"
+class="form-control"
+rows="4">{{ candidate['description'] if candidate else '' }}</textarea>
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+Upload Candidate Photo
+</label>
+
+<input
+type="file"
+name="photo"
+class="form-control"
+accept="image/*">
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+OR Photo URL
+</label>
+
+<input
+type="url"
+name="photo_url"
+class="form-control"
+placeholder="https://example.com/photo.jpg">
+
+</div>
+
+
+<button
+class="btn btn-primary">
+
+<i class="bi bi-save"></i>
+
+Save Candidate
+
+</button>
+
+
+<a
+href="{{ url_for('admin_candidates') }}"
+class="btn btn-secondary">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

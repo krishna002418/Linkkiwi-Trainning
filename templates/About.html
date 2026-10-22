@@ -56,12 +56,13 @@
                 <h5 class="fw-bold mb-3">✨ Features</h5>
                 <div class="row">
                     {% for feature in [
-                        'Student list with marks',
-                        'Grade classification',
-                        'Performance progress bars',
-                        'Responsive design',
-                        'Professional dashboard',
-                        'Easy navigation'
+                        
+                        'User Registration and Authentication',
+                        'Candidate Management',
+                        'Voting Process with Real-time Results',
+                        'Admin Dashboard for Election Management',
+                        'Responsive Design for Mobile and Desktop',
+                        'Secure Data Handling and Storage'
                     ] %}
                     <div class="col-6 mb-2">
                         <span class="text-success me-1">✅</span>
@@ -71,7 +72,7 @@
                 </div>
 
                 <hr>
-                <a href="{{ url_for('home') }}"
+                <a href="{{ url_for('index') }}"
                    class="btn btn-lg px-4"
                    style="background-color:#1e3a5f; color:white;">
                     ← Back to Home

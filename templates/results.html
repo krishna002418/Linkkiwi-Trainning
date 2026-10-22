@@ -1,48 +1,65 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h2 class="text-center">
-<i class="bi bi-bar-chart-fill"></i>
-Election Results
+
+<h2 class="text-center mb-4">
+
+    <i class="bi bi-bar-chart"></i>
+    Election Results
+
 </h2>
+
+
 <div class="alert alert-primary text-center">
-Total Votes:
-<b>
-{{ total_votes }}
-</b>
+
+    Total Votes:
+    <strong>{{ total_votes }}</strong>
+
 </div>
 
-{% if winner %}
-<div class="alert alert-success text-center">
-🏆 Current Winner:
-<b>
-{{ winner }}
-</b>
+
+<div class="row">
+
+{% for candidate in results %}
+
+<div class="col-md-4 mb-4">
+
+<div class="card text-center p-3">
+
+<h4>
+    {{ candidate["name"] }}
+</h4>
+
+<p>
+    {{ candidate["party"] }}
+</p>
+
+<div class="display-4 text-primary">
+
+    {{ candidate["vote_count"] }}
+
 </div>
+
+<p>
+    Votes
+</p>
+
+{% if loop.first and total_votes > 0 %}
+
+<span class="badge bg-success">
+
+    Leading Candidate
+
+</span>
+
 {% endif %}
-<table class="table table-bordered">
-<thead>
-<tr>
-<th>Candidate</th>
-<th>Votes</th>
-<th>Percentage</th>
-</tr>
-</thead>
-<tbody>
-{% for candidate in candidates %}
-<tr>
-<td>
-{{ candidate.name }}
-</td>
-<td>
-{{ candidate.votes }}
-</td>
-<td>
-{{ result_data[
-candidate.name
-].percentage }}%
-</td>
-</tr>
+
+</div>
+
+</div>
+
 {% endfor %}
-</tbody>
-</table>
+
+</div>
+
 {% endblock %}
